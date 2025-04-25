@@ -78,47 +78,47 @@ function Experience({experiences, setExperiences}) {
     }
 
     return (
-        <div>
+        <div className="container">
             <h2>Experience</h2>
             {!editable && 
             <div>
                 {experiences.map((experience) => {
-                    return <div key={experience.id}>
+                    return <div className="item" key={experience.id}>
                         <h3 onClick={() => handleEdit(experience.id)}>{experience.company}</h3>
-                        <button onClick={() => handleDelete(experience.id)}><FaTrashAlt></FaTrashAlt></button>
+                        <button className="trash" onClick={() => handleDelete(experience.id)}><FaTrashAlt></FaTrashAlt></button>
                     </div>  
                 })}
             </div>
             }
             {editable && 
             <form onSubmit={handleSubmitAll}>
-                <div>
+                <div className="field"> 
                     <label htmlFor="company">Company</label>
                     <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} id="company" name="company" required></input>
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="position">Position</label>
                     <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} id="position" name="position" required></input>
                 </div>
-                <div>
-                    <div>
+                <div className="field_date">
+                    <div className="field">
                         <label htmlFor="start_date">Start Date</label>
                         <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} id="start_date" name="start_date" required></input>
                     </div>
-                    <div>
+                    <div className="field">
                         <label htmlFor="end_date">End Date</label>
                         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date" required></input>
                     </div>
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="location">Location</label>
                     <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location" required></input>
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="descriptions">Descriptions</label>
                     <textarea value={descriptions} onChange={(e) => setDescriptions(e.target.value)} id="descriptions" required></textarea>
                 </div>
-                <div>
+                <div className="btns">
                     <button type="submit">Save</button>
                     <button type="button" onClick={() => {handleFormDisplay(); handleClearInputs()}} >Cancel</button>
                 </div>

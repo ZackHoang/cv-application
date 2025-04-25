@@ -74,43 +74,43 @@ function Education({educations, setEducations}) {
     }
 
     return(
-        <div>
+        <div className="container">
             <h2>Education</h2>
             {!editable &&
             <div>
                 {educations.map((education) => {
-                    return <div key={education.id}>
+                    return <div className="item" key={education.id}>
                         <h3 onClick={() => handleEdit(education.id)}>{education.school}</h3>
-                        <button onClick={() => handleDelete(education.id)}><FaTrashAlt/></button>
+                        <button className="trash" onClick={() => handleDelete(education.id)}><FaTrashAlt/></button>
                     </div>
                 })}
             </div>
             }
             {editable && 
             <form onSubmit={handleSubmitAll}>
-                <div>
+                <div className="field">
                     <label htmlFor="school">School</label>
                     <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} id="school" name="school" required></input>
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="degree">Degree</label>
                     <input type="text" value={degree} onChange={(e) => setDegree(e.target.value)} id="degree" name="degree" required></input>
                 </div>
-                <div>
-                    <div>
+                <div className="field_date">
+                    <div className="field">
                         <label htmlFor="start_date">Start Date</label>
                         <input type="date" value={startDate} onChange={(e)=> setStartDate(e.target.value)} id="start_date" name="start_date" required></input>
                     </div>
-                    <div>
+                    <div className="field">
                         <label htmlFor="end_date">End Date</label>
                         <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date" required></input>
                     </div>
                 </div>
-                <div>
+                <div className="field">
                     <label htmlFor="location">Location</label>
                     <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location" required></input>
                 </div>
-                <div>
+                <div className="btns">
                     <button type="submit">Save</button>
                     <button type="button" onClick={() => {handleFormDisplay(); handleClearInputs()}} >Cancel</button>
                 </div>

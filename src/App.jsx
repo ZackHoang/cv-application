@@ -45,9 +45,11 @@ function App() {
 
   return (
     <>
-      <Info infos={infos} setInfos={setInfos}></Info>
-      <Education educations={educations} setEducations={setEducations}></Education>
-      <Experience experiences={experiences} setExperiences={setExperiences}></Experience>
+      <div className='forms_container'>
+        <Info infos={infos} setInfos={setInfos}></Info>
+        <Education educations={educations} setEducations={setEducations}></Education>
+        <Experience experiences={experiences} setExperiences={setExperiences}></Experience>
+      </div>
       <Display infos={infos} educations={educations} experiences={experiences}></Display>
     </>
   )
