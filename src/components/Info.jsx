@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function Info({infos, setInfos}) {
-    const [editable, setEditable] = useState(true); 
+    const [editable, setEditable] = useState(false); 
     const [fullName, setFullName] = useState(""); 
     const [email, setEmail] = useState(""); 
     const [phoneNumber, setPhoneNumber] = useState(""); 
@@ -36,7 +36,7 @@ function Info({infos, setInfos}) {
     return (
         <div>
             <h2>General</h2>
-            {Object.keys(infos).length > 0 &&
+            {!editable &&
             <div>
                 <ul>
                     {Object.values(infos).map((info, index) => {
@@ -47,7 +47,7 @@ function Info({infos, setInfos}) {
             </div>
             }
             {editable && 
-            <form>
+            <form onSubmit={handleSubmitInfo}>
                 <div>
                     <label htmlFor="full_name">Full Name</label>
                     <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} id="full_name" name="full_name" required></input>
@@ -64,8 +64,8 @@ function Info({infos, setInfos}) {
                     <label htmlFor="location">Location</label>
                     <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location" required></input>
                 </div>
-                <button type="submit" onClick={handleSubmitInfo}>Save</button>
-                <button onClick={handleClearInputs}>Cancel</button>
+                <button type="submit">Save</button>
+                <button type="button" onClick={handleClearInputs}>Cancel</button>
             </form>
             }
         </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
 function Experience({experiences, setExperiences}) {
     const [editable, setEditable] = useState(false); 
@@ -39,7 +40,7 @@ function Experience({experiences, setExperiences}) {
             console.log(copyExperiences); 
             setExperiences(copyExperiences); 
         } else {
-            setExperiences([...experiences], {
+            setExperiences([...experiences, {
                 company: company, 
                 position: position, 
                 startDate: startDate, 
@@ -47,7 +48,7 @@ function Experience({experiences, setExperiences}) {
                 location: location, 
                 descriptions: descriptions,
                 id: crypto.randomUUID(), 
-            })
+            }])
         }
     }
 
@@ -66,49 +67,62 @@ function Experience({experiences, setExperiences}) {
         setCurrentID(edit.id); 
     }
 
+    const handleSubmitAll = () => {
+        handleFormDisplay(); 
+        handleSubmitExperience(); 
+        handleClearInputs(); 
+    }
+
+    const handleDelete = (key) => {
+        setExperiences(experiences.filter((experience) => experience.id !== key)); 
+    }
+
     return (
         <div>
             <h2>Experience</h2>
-            <ul>
+            {!editable && 
+            <div>
                 {experiences.map((experience) => {
-                    return <li key = {experience.id} onClick={handleEdit(experience.id)}>{experience.company}</li>  
+                    return <div key={experience.id}>
+                        <h3 onClick={() => handleEdit(experience.id)}>{experience.company}</h3>
+                        <button onClick={() => handleDelete(experience.id)}><FaTrashAlt></FaTrashAlt></button>
+                    </div>  
                 })}
-            </ul>
+            </div>
+            }
             {editable && 
-                (
-                    <form>
-                        <div>
-                            <label htmlFor="company">Company</label>
-                            <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} id="company" name="company"></input>
-                        </div>
-                        <div>
-                            <label htmlFor="position">Position</label>
-                            <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} id="position" name="position"></input>
-                        </div>
-                        <div>
-                            <div>
-                                <label htmlFor="start_date">Start Date</label>
-                                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} id="start_date" name="start_date"></input>
-                            </div>
-                            <div>
-                                <label htmlFor="end_date">End Date</label>
-                                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date"></input>
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="location">Location</label>
-                            <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location"></input>
-                        </div>
-                        <div>
-                            <label htmlFor="descriptions">Descriptions</label>
-                            <textarea value={descriptions} onChange={(e) => setDescriptions(e.target.value)} id="descriptions"></textarea>
-                        </div>
-                        <div>
-                            <button onClick={() => {handleFormDisplay(); handleSubmitExperience(); handleClearInputs()}} type="submit">Save</button>
-                            <button onClick={() => {handleFormDisplay(); handleClearInputs()}} type="reset">Cancel</button>
-                        </div>
-                    </form>
-                )
+            <form onSubmit={handleSubmitAll}>
+                <div>
+                    <label htmlFor="company">Company</label>
+                    <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} id="company" name="company" required></input>
+                </div>
+                <div>
+                    <label htmlFor="position">Position</label>
+                    <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} id="position" name="position" required></input>
+                </div>
+                <div>
+                    <div>
+                        <label htmlFor="start_date">Start Date</label>
+                        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} id="start_date" name="start_date" required></input>
+                    </div>
+                    <div>
+                        <label htmlFor="end_date">End Date</label>
+                        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date" required></input>
+                    </div>
+                </div>
+                <div>
+                    <label htmlFor="location">Location</label>
+                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location" required></input>
+                </div>
+                <div>
+                    <label htmlFor="descriptions">Descriptions</label>
+                    <textarea value={descriptions} onChange={(e) => setDescriptions(e.target.value)} id="descriptions" required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={() => {handleFormDisplay(); handleClearInputs()}} >Cancel</button>
+                </div>
+            </form>
             }
             {!editable && <button className="add" onClick={handleFormDisplay}>Add</button>}
         </div>

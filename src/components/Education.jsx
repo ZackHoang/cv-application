@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
 function Education({educations, setEducations}) {
     const [editable, setEditable] = useState(false);
@@ -35,6 +36,7 @@ function Education({educations, setEducations}) {
             copyEducations[index] = editEducation; 
             console.log(copyEducations); 
             setEducations(copyEducations); 
+            setEditing(false); 
         } else {
             setEducations([...educations, {
                 school: school, 
@@ -48,7 +50,7 @@ function Education({educations, setEducations}) {
     }
 
     const handleEdit = (key) => {
-        setEditing(!editing); 
+        setEditing(true); 
         console.log(key); 
         const edit = educations.find(({id}) => id === key); 
         console.log(edit); 
@@ -61,45 +63,58 @@ function Education({educations, setEducations}) {
         setCurrentID(edit.id); 
     }
 
+    const handleSubmitAll = () => {
+        handleFormDisplay(); 
+        handleSubmitEducation(); 
+        handleClearInputs(); 
+    }
+
+    const handleDelete = (key) => {
+        setEducations(educations.filter((education) => education.id !== key))
+    }
+
     return(
         <div>
             <h2>Education</h2>
-            <ul>
+            {!editable &&
+            <div>
                 {educations.map((education) => {
-                    return <li key={education.id} onClick={handleEdit(education.id)}>{education.school}</li>
+                    return <div key={education.id}>
+                        <h3 onClick={() => handleEdit(education.id)}>{education.school}</h3>
+                        <button onClick={() => handleDelete(education.id)}><FaTrashAlt/></button>
+                    </div>
                 })}
-            </ul>
+            </div>
+            }
             {editable && 
-                (
-                    <form>
-                        <div>
-                            <label htmlFor="school">School</label>
-                            <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} id="school" name="school"></input>
-                        </div>
-                        <div>
-                            <label htmlFor="degree">Degree</label>
-                            <input type="text" value={degree} onChange={(e) => setDegree(e.target.value)} id="degree" name="degree"></input>
-                        </div>
-                        <div>
-                            <div>
-                                <label htmlFor="start_date">Start Date</label>
-                                <input type="date" value={startDate} onChange={(e)=> setStartDate(e.target.value)} id="start_date" name="start_date"></input>
-                            </div>
-                            <div>
-                                <label htmlFor="end_date">End Date</label>
-                                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date"></input>
-                            </div>
-                        </div>
-                        <div>
-                            <label htmlFor="location">Location</label>
-                            <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location"></input>
-                        </div>
-                        <div>
-                            <button onClick={() => {handleFormDisplay(); handleSubmitEducation(); handleClearInputs();}} type="submit">Save</button>
-                            <button onClick={() => {handleFormDisplay(); handleClearInputs()}} type="reset">Cancel</button>
-                        </div>
-                    </form>
-                )
+            <form onSubmit={handleSubmitAll}>
+                <div>
+                    <label htmlFor="school">School</label>
+                    <input type="text" value={school} onChange={(e) => setSchool(e.target.value)} id="school" name="school" required></input>
+                </div>
+                <div>
+                    <label htmlFor="degree">Degree</label>
+                    <input type="text" value={degree} onChange={(e) => setDegree(e.target.value)} id="degree" name="degree" required></input>
+                </div>
+                <div>
+                    <div>
+                        <label htmlFor="start_date">Start Date</label>
+                        <input type="date" value={startDate} onChange={(e)=> setStartDate(e.target.value)} id="start_date" name="start_date" required></input>
+                    </div>
+                    <div>
+                        <label htmlFor="end_date">End Date</label>
+                        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} id="end_date" name="end_date" required></input>
+                    </div>
+                </div>
+                <div>
+                    <label htmlFor="location">Location</label>
+                    <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} id="location" name="location" required></input>
+                </div>
+                <div>
+                    <button type="submit">Save</button>
+                    <button type="button" onClick={() => {handleFormDisplay(); handleClearInputs()}} >Cancel</button>
+                </div>
+            </form>
             }
             {!editable && <button className="add" onClick={handleFormDisplay}>Add</button>}
         </div>
